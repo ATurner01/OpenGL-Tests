@@ -1,0 +1,196 @@
+
+\documentclass[a4wide]{article}
+
+\def\modulecode{COMP3811}
+\def\modulename{Computer Graphics}
+\def\editorsuggestion{gedit}
+
+%\input{mymacros}
+\usepackage{hyperref}
+
+\setlength{\textheight}{8.3in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textwidth}{5.5in}
+\setlength{\oddsidemargin}{0.3in}
+\setlength{\evensidemargin}{0.3in}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{txfonts}
+\usepackage{url}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\title{\modulecode: \modulename\\
+         Tutorial  4\\
+       First Experiments with OpenGL}
+
+\author{Marc de Kamps}
+\date{\today}
+
+\begin{document}
+
+\lstset{language=C++,basicstyle=\tiny}
+
+\maketitle
+\section*{Objective}
+In this tutorial, you will learn to render 3D geometric shapes in OpenGL. You will start out with very simple shapes: quadrilaterals. You will learn how to set
+up a camera  in orthographic projection and examine whether the geometric shapes that you have created will end up where you expect them on the screen. 
+You will experiment with setting up lights and material properties and introduce user interactivity to manipulate light and camera position.
+You will experiment with flat shading. This tutorial is needed to prepare for coursework 2.
+
+\subsection*{Preparation}
+Download \texttt{tutorial4.tar.gz} from the VLE.
+
+\section*{Setting up a Shape}
+Untar the file and enter the directory \texttt{cube\_construct}. You are now familiar with the basic structure of \texttt{Qt} program: a main window containing one or
+more widgets. In this case a \texttt{SolidCubeWidget}, which is in the inheritance chain of both \texttt{QWidget} and \texttt{QGLWidget}. The following
+construction makes the \texttt{OpenGL} API available in the source files that include the \texttt{QGLWidget} header:
+
+\begin{lstlisting}
+
+#include <QGLWidget>
+
+class SolidCubeWidget: public QGLWidget
+\end{lstlisting} 
+
+For the purpose of rendering, the following methods are important:
+\begin{lstlisting}
+
+// called when OpenGL context is set up                                                                                                                                              
+void SolidCubeWidget::initializeGL()
+        { // initializeGL()                                                                                                                                                          
+        // set the widget background colour                                                                                                                                          
+        glClearColor(0.3, 0.3, 0.3, 0.0);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
+
+
+        // You must set the matrix mode to model view directly before enabling the depth test                                                                                     \
+                                                                                                                                                                                     
+        glMatrixMode(GL_MODELVIEW);
+        //      glEnable(GL_DEPTH_TEST); // comment out depth test to observe the result                                                                                          \
+                                                                                                                                                     
+        } // initializeGL()  
+\end{lstlisting}
+\texttt{OpenGL} needs some initialization code, which is best placed in the \texttt{initializeGL()} method. A camera volume is set up as an orthographic projection.
+There is also a statement to enable a Z buffer test, or depth buffer test, which for now has been commented out.
+
+\begin{lstlisting}
+
+// called every time the widget needs painting                                                                                                                                       
+void SolidCubeWidget::paintGL()
+        { // paintGL()                                                                                                                                                               
+        // clear the widget                                                                                                                                                          
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        this->cube();
+
+        glLoadIdentity();
+        gluLookAt(0.,0.,2., 0.0,0.0,0.0, 0.0,1.0,0.0);
+
+        // flush to screen                                                                                                                                                           
+        glFlush();
+
+        } // paintGL() 
+\end{lstlisting}
+
+OpenGL is (mainly) a state machine, meaning that at the moment of rendering all graphical primitives that need to rendered need to be defined. Rendering requires the
+use of buffers, that will be discussed in greater detail in the lectures. When OpenGL renders, colour information is written into a colour buffer. Depth buffering will be discussed
+below. All buffers in use need to be cleared before rendering which is achieved \texttt{glClear}. The rendering of the cube will be discussed below.  A camera is positioned
+at $(0,0,2)$, directed to the point $(0,0,0)$, with an up direction in the positive $y$-direction. The reason that this statement is in \texttt{paintGL} rather than in the 
+initialization is that camera positions can be animated, i.e. shift from frame to frame.
+
+\begin{lstlisting}
+
+void SolidCubeWidget::cube(){
+
+  glColor3f(1.0,0.0,0.0);
+  glBegin(GL_POLYGON);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glVertex3f( 1.0, -1.0, -1.0);
+    glVertex3f( 1.0,  1.0, -1.0);
+    glVertex3f(-1.0,  1.0, -1.0);
+  glEnd();
+
+  glColor3f(0.0,0.0,1.0);
+  glBegin(GL_POLYGON);
+    glVertex3f( 1.0, -1.0,  1.0);
+    glVertex3f( 1.0, -1.0, -1.0);
+    glVertex3f( 1.0,  1.0, -1.0);
+    glVertex3f( 1.0,  1.0,  1.0);
+    glEnd();
+
+
+  glColor3f(0.0,1.0,0.0);
+  glBegin(GL_POLYGON);
+    glVertex3f(-1.0, -1.0, 1.0);
+    glVertex3f( 1.0, -1.0, 1.0);
+    glVertex3f( 1.0,  1.0, 1.0);
+    glVertex3f(-1.0,  1.0, 1.0);
+  glEnd();
+}
+\end{lstlisting}
+
+
+\begin{itemize}
+  \item Verify that these definitions create a world model like that of Figure \ref{fig-cube}.
+  \item Compile and run the program. Observe the output
+  \item Exchange the order in which the different polygons are created. Compile, run.  Does the result matter?
+  \item Now uncomment \texttt{glEnable(GL\_DEPTH\_TEST);} and repeat the experiment.
+  \item Move the camera to position (1.,1.,1.). Again experiment with  \texttt{glEnable(GL\_DEPTH\_TEST)}.
+  \item The use of the word 'camera' is slightly misleading. Enable the depth test put the camera at $(0,0,0)$ and let the view direction be $(0,0,1)$. Do you see the red or the green plane? Explain the result.
+  \item Complete the cube.
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.4\textwidth]{cube_construct.pdf}
+\end{center}
+\caption{A partially built cube.}
+\label{fig-cube}
+\end{figure}
+
+
+
+\section*{Setting up Camera and Light}
+Now enter the directory \texttt{cube\_with\_light}
+\begin{itemize}
+\item Look at how material properties are set up in \texttt{SolidCubeWidget.cpp}
+\item Identify where the camera position is set up.
+\item Compile and run. The result will look less than impressive.
+\item Look where the normal vectors are set up. Uncomment the appropriate version. Recompile and run.
+\item Also experiment with the scrambeled normal vectors. You should see an effect on the lighting.
+\end{itemize}
+You've now seen the simplest interactions modeled by the Phong model. Now start manipulating the scene.
+
+The statement \texttt{glRotatef(angle, x, y, z);} will perform a rotation on the world matrix  (\texttt{MODELVIEW} in \texttt{OpenGL} language. Here \texttt{angle}
+specifies the rotation angle and $x, y$ and $z$ specify the \emph{axis of rotation}. Translations can be performed with calls to \emph{glTranslatef}. In general to find
+out about the OpenGL API refer to: \url{https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/}. Note that this is not the newest version of OpenGL which can be found at:
+\url{https://www.khronos.org/registry/OpenGL-Refpages/gl4/}. The 2.1 version is more appropriate for this module.
+
+\begin{itemize}
+\item Perform a rotation of 45 degrees around the $y$-axis.
+\item Undo the last rotation and start out with the original code. Create a second box  next to the first one. Place it next to the first one in the positive $x$-direction.
+\item On the scene you've just rendered, perform a rotation of 30 degrees clockwise around the $y$-axis.
+\item Undo the last rotation. Instead rotate the scene 30 degrees clockwise around an axis parallel to the $y$-axis through the centre of the second box. The
+impression of the scene should be a rotation around the second box, rather than the first.
+\end{itemize}
+By now you should get slowly annoyed by having to recompile after every small modification.
+\begin{itemize}
+  \item Create a class variable angle in the \emph{SolidCubeWidget}. Hard code its value in the constructor and implement a rotation by that angle in the \emph{paintGL} method. Verify that your application now always shows the cube under this viewing angle.
+  \item Now create a timer, like in last tutorial. Upon every new timer event, increment the angle. You should see an animation of a rotating cube.
+  \item Research \texttt{QSlider} in the \texttt{Qt} documentation. Use the \texttt{signal/slot} mechanism to communicate the position of the slider to your widget.
+  \item Implement an interactive way for setting the viewing angle for your cube.
+  \item Create an animation that has the object rotating with the light rotating in the opposite direction.
+  \item Experiment! Experiment!! Play with material and light properties.
+\end{itemize}
+
+
+
+
+
+\end{document}
