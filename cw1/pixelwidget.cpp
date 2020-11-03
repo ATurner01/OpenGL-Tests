@@ -17,11 +17,25 @@ void PixelWidget::DefinePixelValues(){ //add pixels here; write methods like thi
 }
 
 void PixelWidget::DrawLine(float start_x, float start_y, float end_x, float
-end_y){
-  float i,j;
-  for (i=start_x, j=start_y ; i<end_x && j<end_y ; i=i+0.01, j=j+0.01){
-    SetPixel(i,j,RGBVal(255,0,0));
+end_y, const RGBVal& start_rgb, const RGBVal& end_rgb){
+  float x = start_x, y = start_y;
+  float t = 0.01; // Step value
+
+  // A vector parallel to the original provided
+  float p_x = end_x - start_x;
+  float p_y = end_y - start_y;
+
+  while (x <= end_x || y <= end_y){
+    x = x + (p_x * t);
+    y = y + (p_y * t);
+    SetPixel(x,y,start_rgb);
   }
+}
+
+void PixelWidget::DrawTriangle(float x1, float y1, float x2, float y2, float x3,
+                               float y3, const RGBVal& rgb1, const RGBVal& rgb2,
+                               const RGBVal& rgb3) {
+
 }
 
 
@@ -67,7 +81,8 @@ void PixelWidget::paintEvent( QPaintEvent * )
 
   // here the pixel values defined by the user are set in the pixel array
   DefinePixelValues();
-  DrawLine(20,20,60,60);
+  DrawLine(20,20,60,60,RGBVal(0,255,0),RGBVal(255,0,0));
+  DrawLine(1.0,30.0,50.0,40.0,RGBVal(255,255,255),RGBVal(255,255,255));
 
   for (unsigned int i_column = 0 ; i_column < _n_vertical; i_column++)
     for(unsigned int i_row = 0; i_row < _n_horizontal; i_row++){

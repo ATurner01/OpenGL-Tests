@@ -41,7 +41,21 @@ public:
    float start_x,
    float start_y,
    float end_x,
-   float end_y
+   float end_y,
+   const RGBVal& start_rgb,
+   const RGBVal& end_rgb
+   );
+
+  void DrawTriangle(
+   float x1,
+   float y1,
+   float x2,
+   float y2,
+   float x3,
+   float y3,
+   const RGBVal& rgb1,
+   const RGBVal& rgb2,
+   const RGBVal& rgb3
    );
 
 protected:
