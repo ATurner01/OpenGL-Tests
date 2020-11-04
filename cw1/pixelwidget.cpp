@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 #include "pixelwidget.hpp"
 
 
@@ -25,17 +26,21 @@ end_y, const RGBVal& start_rgb, const RGBVal& end_rgb){
   float p_x = end_x - start_x;
   float p_y = end_y - start_y;
 
-  while (x <= end_x || y <= end_y){
-    x = x + (p_x * t);
-    y = y + (p_y * t);
+  while (x != end_x || y != end_y){
     SetPixel(x,y,start_rgb);
+    // Each value is rounded to 2 decimal places after computation
+    // to avoid unnecessarily large values
+    x = std::round((x + (p_x * t)) * 100) / 100;
+    y = std::round((y + (p_y * t)) * 100) / 100;
   }
 }
 
 void PixelWidget::DrawTriangle(float x1, float y1, float x2, float y2, float x3,
                                float y3, const RGBVal& rgb1, const RGBVal& rgb2,
                                const RGBVal& rgb3) {
-
+  DrawLine(x1,y1,x2,y2,rgb1,rgb2);
+  DrawLine(x2,y2,x3,y3,rgb2,rgb3);
+  DrawLine(x3,y3,x1,y1,rgb3,rgb1);
 }
 
 
@@ -82,7 +87,10 @@ void PixelWidget::paintEvent( QPaintEvent * )
   // here the pixel values defined by the user are set in the pixel array
   DefinePixelValues();
   DrawLine(20,20,60,60,RGBVal(0,255,0),RGBVal(255,0,0));
-  DrawLine(1.0,30.0,50.0,40.0,RGBVal(255,255,255),RGBVal(255,255,255));
+  //DrawLine(1.0,30.0,50.0,40.0,RGBVal(255,255,255),RGBVal(255,255,255));
+  //DrawLine(10,50,40,15,RGBVal(0,0,255),RGBVal(0,255,0));
+  DrawTriangle(30,10,50,55,60,55,RGBVal(255,0,0),RGBVal(0,255,0),RGBVal(0,0,
+          255));
 
   for (unsigned int i_column = 0 ; i_column < _n_vertical; i_column++)
     for(unsigned int i_row = 0; i_row < _n_horizontal; i_row++){
