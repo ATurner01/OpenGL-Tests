@@ -19,19 +19,20 @@ void PixelWidget::DefinePixelValues(){ //add pixels here; write methods like thi
 
 void PixelWidget::DrawLine(float start_x, float start_y, float end_x, float
 end_y, const RGBVal& start_rgb, const RGBVal& end_rgb){
+  float t;
   float x = start_x, y = start_y;
-  float t = 0.01; // Step value
+  RGBVal rgb(start_rgb._red, start_rgb._green, start_rgb._blue);
 
-  // A vector parallel to the original provided
-  float p_x = end_x - start_x;
-  float p_y = end_y - start_y;
+  for (t = 0 ; t < 1 ; t += 0.01){
+    SetPixel(x,y,rgb);
+    // values of x and y are rounded to 2 decimal places after each calculation
+    x = std::round(((t * start_x) + ((1-t) * end_x)) * 100) / 100;
+    y = std::round(((t * start_y) + ((1-t) * end_y)) * 100) / 100;
 
-  while (x != end_x || y != end_y){
-    SetPixel(x,y,start_rgb);
-    // Each value is rounded to 2 decimal places after computation
-    // to avoid unnecessarily large values
-    x = std::round((x + (p_x * t)) * 100) / 100;
-    y = std::round((y + (p_y * t)) * 100) / 100;
+    // interpolate the colour along the line based on the provided RGB values
+    rgb._red = (t * start_rgb._red) + ((1-t) * end_rgb._red);
+    rgb._green = (t * start_rgb._green) + ((1-t) * end_rgb._green);
+    rgb._blue = (t * start_rgb._blue) + ((1-t) * end_rgb._blue);
   }
 }
 
@@ -90,7 +91,7 @@ void PixelWidget::paintEvent( QPaintEvent * )
   //DrawLine(1.0,30.0,50.0,40.0,RGBVal(255,255,255),RGBVal(255,255,255));
   //DrawLine(10,50,40,15,RGBVal(0,0,255),RGBVal(0,255,0));
   DrawTriangle(30,10,50,55,60,55,RGBVal(255,0,0),RGBVal(0,255,0),RGBVal(0,0,
-          255));
+        255));
 
   for (unsigned int i_column = 0 ; i_column < _n_vertical; i_column++)
     for(unsigned int i_row = 0; i_row < _n_horizontal; i_row++){
