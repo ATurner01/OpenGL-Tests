@@ -13,8 +13,6 @@
 
 void PixelWidget::DefinePixelValues(){ //add pixels here; write methods like this for the assignments
   SetPixel(10,30,RGBVal(255,0,0));
-  SetPixel(10,40,RGBVal(0,255,0));
-  SetPixel(10,50,RGBVal(0,0,255));
 }
 
 void PixelWidget::DrawLine(float start_x, float start_y, float end_x, float
@@ -39,9 +37,45 @@ end_y, const RGBVal& start_rgb, const RGBVal& end_rgb){
 void PixelWidget::DrawTriangle(float x1, float y1, float x2, float y2, float x3,
                                float y3, const RGBVal& rgb1, const RGBVal& rgb2,
                                const RGBVal& rgb3) {
+  // draw the three edges of the triangle
   DrawLine(x1,y1,x2,y2,rgb1,rgb2);
   DrawLine(x2,y2,x3,y3,rgb2,rgb3);
   DrawLine(x3,y3,x1,y1,rgb3,rgb1);
+
+  float p_x, p_y, u, v;
+  float a_x,b_x,c_x;
+  float a_y,b_y,c_y;
+  RGBVal rgb_inner(255,255,255);
+
+  for (u = 0 ; u < 1 ; u += 0.01){
+    for (v = 0 ; v < 1 ; v += 0.01){
+      // if the sum of u and v is greater than 1, we're outside the triangle
+      // so we skip this point
+      if (u + v > 1)
+        continue;
+
+      a_x = u * x1;
+      b_x = v * x2;
+      c_x = (1-u-v) * x3;
+
+      a_y = u * y1;
+      b_y = v * y2;
+      c_y = (1-u-v) * y3;
+
+      p_x = a_x + b_x + c_x;
+      p_y = a_y + b_y + c_y;
+
+      // interpolate the colour values for each point inside the triangle
+      rgb_inner._red = (u * rgb1._red) + (v * rgb2._red) + (
+              (1-u-v) * rgb3._red);
+      rgb_inner._green = (u * rgb1._green) + (v * rgb2._green) + (
+              (1-u-v) * rgb3._green);
+      rgb_inner._blue = (u * rgb1._blue) + (v * rgb2._blue) +
+              ((1-u-v) * rgb3._blue);
+
+      SetPixel(p_x,p_y,rgb_inner);
+    }
+  }
 }
 
 
