@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <vector>
 #include "pixelwidget.hpp"
 
 
@@ -78,6 +79,54 @@ void PixelWidget::DrawTriangle(float x1, float y1, float x2, float y2, float x3,
   }
 }
 
+bool PixelWidget::IsInside(float x1, float y1, float x2, float y2, float x3,
+                           float y3, float p_x, float p_y) {
+
+  // assume, for simplicity, that the pixel is inside the triangle by default
+  bool is_within = true;
+
+  float t[4] = {(x1-x3), (x2-x3),
+                (y1-y3), (y2-y3)};
+
+  // calculates the determinant of matrix t
+  float det = (t[0] * t[3]) - (t[1] * t[2]);
+
+  // calculates the inverse of the matrix t
+  float t_inv[4] = {(t[3] / det), (-t[1] / det),
+                    (-t[2] / det), (t[0] / det)};
+
+  float a, b, c;
+
+  a = (t_inv[0] * (p_x - x3)) + (t_inv[1] * (p_x - x3));
+  b = (t_inv[2] * (p_y - y3)) + (t_inv[3] * (p_y - y3));
+  c = 1 - a - b;
+
+//  std::cout << "a: " << a << ", b: " << b << ", c: " << c << std::endl;
+
+  // check to see if the point is contained within the 3 planes
+  if (a < 0 || a > 1){
+    is_within = false;
+  }
+  if (b < 0 || b > 1){
+    is_within = false;
+  }
+  if (c < 0 || c > 1){
+    is_within = false;
+  }
+  if (a + b > 1){
+    is_within = false;
+  }
+
+  std::ofstream out;
+  out.open("barycentric_coords.txt", std::ios_base::app);
+
+  out << a << ", " << b << ", " << c << ", " << is_within << std::endl;
+
+  out.close();
+
+  return is_within;
+}
+
 
 // -----------------Most code below can remain untouched -------------------------
 // ------but look at where DefinePixelValues is called in paintEvent--------------
@@ -122,8 +171,6 @@ void PixelWidget::paintEvent( QPaintEvent * )
   // here the pixel values defined by the user are set in the pixel array
   DefinePixelValues();
   DrawLine(20,20,60,60,RGBVal(0,255,0),RGBVal(255,0,0));
-  //DrawLine(1.0,30.0,50.0,40.0,RGBVal(255,255,255),RGBVal(255,255,255));
-  //DrawLine(10,50,40,15,RGBVal(0,0,255),RGBVal(0,255,0));
   DrawTriangle(30,10,50,55,60,55,RGBVal(255,0,0),RGBVal(0,255,0),RGBVal(0,0,
         255));
 
