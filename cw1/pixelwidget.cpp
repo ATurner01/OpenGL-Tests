@@ -25,8 +25,8 @@ end_y, const RGBVal& start_rgb, const RGBVal& end_rgb){
   for (t = 0 ; t < 1 ; t += 0.01){
     SetPixel(x,y,rgb);
     // values of x and y are rounded to 2 decimal places after each calculation
-    x = std::round(((t * start_x) + ((1-t) * end_x)) * 100) / 100;
-    y = std::round(((t * start_y) + ((1-t) * end_y)) * 100) / 100;
+    x = round(((t * start_x) + ((1-t) * end_x)) * 100) / 100;
+    y = round(((t * start_y) + ((1-t) * end_y)) * 100) / 100;
 
     // interpolate the colour along the line based on the provided RGB values
     rgb._red = (t * start_rgb._red) + ((1-t) * end_rgb._red);
@@ -101,8 +101,6 @@ bool PixelWidget::IsInside(float x1, float y1, float x2, float y2, float x3,
   b = (t_inv[2] * (p_y - y3)) + (t_inv[3] * (p_y - y3));
   c = 1 - a - b;
 
-//  std::cout << "a: " << a << ", b: " << b << ", c: " << c << std::endl;
-
   // check to see if the point is contained within the 3 planes
   if (a < 0 || a > 1){
     is_within = false;
@@ -170,9 +168,11 @@ void PixelWidget::paintEvent( QPaintEvent * )
 
   // here the pixel values defined by the user are set in the pixel array
   DefinePixelValues();
-  DrawLine(20,20,60,60,RGBVal(0,255,0),RGBVal(255,0,0));
+  //DrawLine(20,20,60,60,RGBVal(0,255,0),RGBVal(255,0,0));
   DrawTriangle(30,10,50,55,60,55,RGBVal(255,0,0),RGBVal(0,255,0),RGBVal(0,0,
         255));
+  DrawTriangle(0,30,30,30,30,60,RGBVal(255,0,0),RGBVal(0,255,0), RGBVal(0,0,
+          255));
 
   for (unsigned int i_column = 0 ; i_column < _n_vertical; i_column++)
     for(unsigned int i_row = 0; i_row < _n_horizontal; i_row++){

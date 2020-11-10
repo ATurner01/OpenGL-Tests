@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
   out << "alpha" << ", beta" << ", gamma" << ", IsInside" << std::endl;
   out.close();
 
+  // creates a new ppm image and sets up the header
   std::ofstream image;
   image.open("triangle.ppm");
   image << "P3" << std::endl;
