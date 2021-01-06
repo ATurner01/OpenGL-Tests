@@ -21,7 +21,7 @@ protected:
     float gluX, gluY, gluZ;
 
 private:
-    void rectangle(coords pos);
+    void cuboid(coords pos);
 
 public slots:
     void gluXValue(int);

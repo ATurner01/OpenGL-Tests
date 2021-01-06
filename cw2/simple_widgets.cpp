@@ -11,7 +11,7 @@ SimpleWidgets::SimpleWidgets(QWidget *parent): QGLWidget(parent){
   gluZ = -1.0;
 }
 
-void SimpleWidgets::rectangle(coords pos){
+void SimpleWidgets::cuboid(coords pos){
   float xScale = pos.x;
   float yScale = pos.y;
   float zScale = pos.z;
@@ -85,19 +85,19 @@ void SimpleWidgets::paintGL(){
   gluLookAt(gluX,gluY,gluZ, 0.0,0.0,0.0, 0.0,1.0,0.0);
 
   glPushMatrix();
-  this->rectangle(coords{0.5,0.5,0.5});
+  this->cuboid(coords{0.5,0.5,0.5});
   glTranslatef(-2,-2.,0.);
-  this->rectangle(coords{1.0,1.0,1.0});
+  this->cuboid(coords{1.0,1.0,1.0});
   glPopMatrix();
 
   glPushMatrix();
   glTranslatef(-1.,2.,0.);
-  this->rectangle(coords{1.0,1.0,1.0});
+  this->cuboid(coords{1.0,1.0,1.0});
   glPopMatrix();
 
   glPushMatrix();
   glTranslatef(-2.,2.,2.);
-  this->rectangle(coords{1.0,1.0,0.5});
+  this->cuboid(coords{1.0,1.0,0.5});
   glPopMatrix();
 
   glFlush();
