@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QSlider>
 #include <QBoxLayout>
+#include <QGridLayout>
 #include "simple_widgets.hpp"
 
 class Window: public QWidget {
@@ -13,12 +14,17 @@ class Window: public QWidget {
 public:
     Window(QWidget *parent);
 
-    QMenuBar *menu;
-    QMenu *file;
-    QAction *quit;
-
     QBoxLayout *layout;
+    QGridLayout *menu;
+    QLabel *lookLabel;
+    QSlider *xBar;
+    QSlider *yBar;
+    QSlider *zBar;
+
     SimpleWidgets *cube;
+
+private:
+    void makeConnections();
 
 };
 

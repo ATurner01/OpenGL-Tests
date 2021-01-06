@@ -52,11 +52,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		window.cpp \
-		simple_widgets.cpp moc_window.cpp
+		simple_widgets.cpp moc_window.cpp \
+		moc_simple_widgets.cpp
 OBJECTS       = main.o \
 		window.o \
 		simple_widgets.o \
-		moc_window.o
+		moc_window.o \
+		moc_simple_widgets.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -458,13 +460,19 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_window.cpp
+compiler_moc_header_make_all: moc_window.cpp moc_simple_widgets.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_window.cpp
-moc_window.cpp: window.hpp \
+	-$(DEL_FILE) moc_window.cpp moc_simple_widgets.cpp
+moc_window.cpp: simple_widgets.hpp \
+		window.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/adam/Documents/comp3811/cw2 -I/home/adam/Documents/comp3811/cw2 -I/opt/local/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include window.hpp -o moc_window.cpp
+
+moc_simple_widgets.cpp: simple_widgets.hpp \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/adam/Documents/comp3811/cw2 -I/home/adam/Documents/comp3811/cw2 -I/opt/local/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include simple_widgets.hpp -o moc_simple_widgets.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -480,10 +488,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-main.o: main.cpp window.hpp
+main.o: main.cpp window.hpp \
+		simple_widgets.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-window.o: window.cpp window.hpp
+window.o: window.cpp window.hpp \
+		simple_widgets.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o window.cpp
 
 simple_widgets.o: simple_widgets.cpp simple_widgets.hpp
@@ -491,6 +501,9 @@ simple_widgets.o: simple_widgets.cpp simple_widgets.hpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp
+
+moc_simple_widgets.o: moc_simple_widgets.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_simple_widgets.o moc_simple_widgets.cpp
 
 ####### Install
 

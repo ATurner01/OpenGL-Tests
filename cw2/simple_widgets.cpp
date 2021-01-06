@@ -6,7 +6,9 @@
 
 
 SimpleWidgets::SimpleWidgets(QWidget *parent): QGLWidget(parent){
-
+  gluX = 1.0;
+  gluY = -1.0;
+  gluZ = -1.0;
 }
 
 void SimpleWidgets::cube(float scale){
@@ -76,6 +78,9 @@ void SimpleWidgets::paintGL(){
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_DEPTH_TEST);
 
+  glLoadIdentity();
+  gluLookAt(gluX,gluY,gluZ, 0.0,0.0,0.0, 0.0,1.0,0.0);
+
   glPushMatrix();
   this->cube(0.5);
   glTranslatef(-2,-2.,0.);
@@ -87,8 +92,20 @@ void SimpleWidgets::paintGL(){
   this->cube(1.0);
   glPopMatrix();
 
-  glLoadIdentity();
-  gluLookAt(1.,-1.,-1., 0.0,0.0,0.0, 0.0,1.0,0.0);
-
   glFlush();
+}
+
+void SimpleWidgets::gluXValue(int x){
+  this->gluX = (float) x;
+  this->repaint();
+}
+
+void SimpleWidgets::gluYValue(int y){
+  this->gluY = (float) y;
+  this->repaint();
+}
+
+void SimpleWidgets::gluZValue(int z){
+  this->gluZ = (float) z;
+  this->repaint();
 }

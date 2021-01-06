@@ -9,6 +9,7 @@ typedef struct coords{
 
 
 class SimpleWidgets: public QGLWidget {
+    Q_OBJECT
 public:
     SimpleWidgets(QWidget *parent);
 
@@ -17,9 +18,15 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
 
+    float gluX, gluY, gluZ;
+
 private:
     void cube(float pos);
 
+public slots:
+    void gluXValue(int);
+    void gluYValue(int);
+    void gluZValue(int);
 };
 
 
