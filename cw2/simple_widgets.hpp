@@ -4,7 +4,7 @@
 #include <QGLWidget>
 
 typedef struct coords{
-    int x,y,z;
+    float x,y,z;
 } coords;
 
 
@@ -21,7 +21,7 @@ protected:
     float gluX, gluY, gluZ;
 
 private:
-    void cube(float pos);
+    void rectangle(coords pos);
 
 public slots:
     void gluXValue(int);

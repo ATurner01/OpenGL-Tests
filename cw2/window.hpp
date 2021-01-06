@@ -14,13 +14,22 @@ class Window: public QWidget {
 public:
     Window(QWidget *parent);
 
+    //Define the layouts
     QBoxLayout *layout;
     QGridLayout *menu;
+
+    //Define the labels
     QLabel *lookLabel;
+    QLabel *xLabel;
+    QLabel *yLabel;
+    QLabel *zLabel;
+
+    //Define the sliders for changing gluLookAt values
     QSlider *xBar;
     QSlider *yBar;
     QSlider *zBar;
 
+    //Define the widgets that make the scene
     SimpleWidgets *cube;
 
 private:
