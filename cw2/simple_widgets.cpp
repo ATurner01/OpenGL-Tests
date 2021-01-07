@@ -9,6 +9,20 @@ SimpleWidgets::SimpleWidgets(QWidget *parent): QGLWidget(parent){
   gluX = 1.0;
   gluY = -1.0;
   gluZ = -1.0;
+  gluXAt = 0.0;
+  gluYAt = 0.0;
+  gluZAt = 0.0;
+  gluXUp = 0.0;
+  gluYUp = 1.0;
+  gluZUp = 0.0;
+
+  orthoXMin = -300.0;
+  orthoYMin = -300.0;
+  orthoZMin = -300.0;
+  orthoXMax = 300.0;
+  orthoYMax = 300.0;
+  orthoZMax = 300.0;
+
 }
 
 void SimpleWidgets::cuboid(coords pos){
@@ -67,13 +81,16 @@ void SimpleWidgets::cuboid(coords pos){
 
 void SimpleWidgets::initialiseGL(){
   glClearColor(0.8, 0.3, 0.3, 0);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(orthoXMin,orthoXMax, orthoYMin,orthoYMax, orthoZMin,orthoZMax);
 }
 
 void SimpleWidgets::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(-4.0, 4.0, -4.0, 4.0, -4.0, 4.0);
+  glOrtho(orthoXMin,orthoXMax, orthoYMin,orthoYMax, orthoZMin,orthoZMax);
 }
 
 void SimpleWidgets::paintGL(){
@@ -82,7 +99,7 @@ void SimpleWidgets::paintGL(){
   glEnable(GL_DEPTH_TEST);
 
   glLoadIdentity();
-  gluLookAt(gluX,gluY,gluZ, 0.0,0.0,0.0, 0.0,1.0,0.0);
+  gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
 
   glPushMatrix();
   this->cuboid(coords{0.5,0.5,0.5});
@@ -115,5 +132,65 @@ void SimpleWidgets::gluYValue(int y){
 
 void SimpleWidgets::gluZValue(int z){
   this->gluZ = (float) z;
+  this->repaint();
+}
+
+void SimpleWidgets::gluXAtValue(int xAt){
+  this->gluXAt = (float) xAt;
+  this->repaint();
+}
+
+void SimpleWidgets::gluYAtValue(int yAt){
+  this->gluYAt = (float) yAt;
+  this->repaint();
+}
+
+void SimpleWidgets::gluZAtValue(int zAt){
+  this->gluZAt = (float) zAt;
+  this->repaint();
+}
+
+void SimpleWidgets::gluXUpValue(int xUp){
+  this->gluXUp = (float) xUp;
+  this->repaint();
+}
+
+void SimpleWidgets::gluYUpValue(int yUp){
+  this->gluYUp = (float) yUp;
+  this->repaint();
+}
+
+void SimpleWidgets::gluZUpValue(int zUp){
+  this->gluZUp = (float) zUp;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoXMinValue(double xMin){
+  this->orthoXMin = (float) xMin;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoYMinValue(double yMin){
+  this->orthoYMin = (float) yMin;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoZMinValue(double zMin){
+  this->orthoZMin = (float) zMin;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoXMaxValue(double xMax){
+  this->orthoXMax = (float) xMax;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoYMaxValue(double yMax){
+  this->orthoYMax = (float) yMax;
+  this->repaint();
+}
+
+void SimpleWidgets::orthoZMaxValue(double zMax){
+  this->orthoZMax = (float) zMax;
   this->repaint();
 }

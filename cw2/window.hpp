@@ -5,6 +5,7 @@
 #include <QGLWidget>
 #include <QMenuBar>
 #include <QSlider>
+#include <QDoubleSpinBox>
 #include <QBoxLayout>
 #include <QGridLayout>
 #include "simple_widgets.hpp"
@@ -23,16 +24,45 @@ public:
     QLabel *xLabel;
     QLabel *yLabel;
     QLabel *zLabel;
+    QLabel *xAtLabel;
+    QLabel *yAtLabel;
+    QLabel *zAtLabel;
+    QLabel *xUpLabel;
+    QLabel *yUpLabel;
+    QLabel *zUpLabel;
+    QLabel *xMinLabel;
+    QLabel *yMinLabel;
+    QLabel *zMinLabel;
+    QLabel *xMaxLabel;
+    QLabel *yMaxLabel;
+    QLabel *zMaxLabel;
 
     //Define the sliders for changing gluLookAt values
     QSlider *xBar;
     QSlider *yBar;
     QSlider *zBar;
+    QSlider *xAt;
+    QSlider *yAt;
+    QSlider *zAt;
+    QSlider *xUp;
+    QSlider *yUp;
+    QSlider *zUp;
+
+    //Define the input fields for glOrtho
+    QDoubleSpinBox *xMin;
+    QDoubleSpinBox *yMin;
+    QDoubleSpinBox *zMin;
+    QDoubleSpinBox *xMax;
+    QDoubleSpinBox *yMax;
+    QDoubleSpinBox *zMax;
 
     //Define the widgets that make the scene
     SimpleWidgets *cube;
 
 private:
+    void createWidgets();
+    void configureWidgets();
+    void arrangeWidgets();
     void makeConnections();
 
 };
