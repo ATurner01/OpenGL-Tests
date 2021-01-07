@@ -52,7 +52,7 @@ void Window::createWidgets(){
   zMax = new QDoubleSpinBox();
 
   //Setup the widgets that make up the scene
-  cube = new SimpleWidgets(this);
+  cube = new Scene(this);
 
 }
 

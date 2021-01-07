@@ -8,7 +8,7 @@
 #include <QDoubleSpinBox>
 #include <QBoxLayout>
 #include <QGridLayout>
-#include "simple_widgets.hpp"
+#include "scene.hpp"
 
 class Window: public QWidget {
     Q_OBJECT
@@ -57,7 +57,7 @@ public:
     QDoubleSpinBox *zMax;
 
     //Define the widgets that make the scene
-    SimpleWidgets *cube;
+    Scene *cube;
 
 private:
     void createWidgets();

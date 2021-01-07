@@ -5,7 +5,8 @@ INCLUDEPATH += . /opt/local/include
 QT += widgets opengl gui
 LIBS += -lGLU
 
-HEADERS += window.hpp simple_widgets.hpp
+HEADERS += window.hpp scene.hpp simple_widgets.hpp
 SOURCES += main.cpp \
            window.cpp \
+           scene.cpp \
            simple_widgets.cpp
