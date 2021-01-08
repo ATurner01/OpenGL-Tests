@@ -1,4 +1,5 @@
 #include <GL/glu.h>
+#include <GL/glut.h>
 #include <QGLWidget>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -50,24 +51,36 @@ void Scene::paintGL(){
   gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
 
   glPushMatrix();
-  basic->cuboid(coords{0.5,0.5,0.5});
+  basic->cuboid(0.5,0.5,0.5);
   glTranslatef(-2,-2.,0.);
-  basic->cuboid(coords{1.0,1.0,1.0});
+  basic->cuboid(1.0,1.0,1.0);
   glPopMatrix();
 
   glPushMatrix();
   glTranslatef(-1.,2.,0.);
-  basic->cuboid(coords{1.0,1.0,1.0});
+  basic->cuboid(1.0,1.0,1.0);
   glPopMatrix();
 
   glPushMatrix();
   glTranslatef(-2.,2.,2.);
-  basic->cuboid(coords{1.0,1.0,0.5});
+  basic->cuboid(1.0,1.0,0.5);
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(-200.,-200.,0.);
-  basic->cuboid(coords{50.0, 25.0, 25.0});
+  glTranslatef(-100.,-200.,100.);
+  glRotatef(90.0, 1.0,0.0,0.0);
+  basic->cylinder(50);
+  //basic->cuboid(coords{50.0, 25.0, 25.0});
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(100,-100,0);
+  basic->plane(50);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(50,50,0);
+  glutSolidTeapot(50.0);
   glPopMatrix();
 
   glFlush();
