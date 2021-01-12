@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "scene.hpp"
+#include "materials.hpp"
 
 
 Scene::Scene(QWidget *parent): QGLWidget(parent){
@@ -37,6 +38,17 @@ void Scene::initialiseGL(){
 
 void Scene::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
+  GLfloat light_pos[] = {0., -100., 0., 0.};
+
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+  glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.);
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(orthoXMin,orthoXMax, orthoYMin,orthoYMax, orthoZMin,orthoZMax);
@@ -47,41 +59,26 @@ void Scene::paintGL(){
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_DEPTH_TEST);
 
-  glLoadIdentity();
-  gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
-
-  glPushMatrix();
-  basic->cuboid(0.5,0.5,0.5);
-  glTranslatef(-2,-2.,0.);
-  basic->cuboid(1.0,1.0,1.0);
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef(-1.,2.,0.);
-  basic->cuboid(1.0,1.0,1.0);
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef(-2.,2.,2.);
-  basic->cuboid(1.0,1.0,0.5);
-  glPopMatrix();
+  basic->cuboid(50.0,50.0,50.0, &brassMaterial);;
 
   glPushMatrix();
   glTranslatef(-100.,-200.,100.);
   glRotatef(90.0, 1.0,0.0,0.0);
-  basic->cylinder(50);
-  //basic->cuboid(coords{50.0, 25.0, 25.0});
+  basic->cylinder(50, &whiteShinyMaterial);
   glPopMatrix();
 
   glPushMatrix();
   glTranslatef(100,-100,0);
-  basic->plane(50);
+  basic->plane(50, &whiteShinyMaterial);
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(50,50,0);
+  glTranslatef(150,50,0);
   glutSolidTeapot(50.0);
   glPopMatrix();
+
+  glLoadIdentity();
+  gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
 
   glFlush();
 }
