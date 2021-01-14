@@ -24,7 +24,7 @@ void SimpleWidgets::plane(float scale, materialStruct* material){
   GLfloat normal[3] = {0.,0.,-scale};
 
   glNormal3fv(normal);
-  glColor3f(1.0,0.0,0.0);
+  glColor3f(1.0,1.0,1.0);
   glBegin(GL_POLYGON);
   glVertex3f( scale, scale, scale);
   glVertex3f( scale,-scale, scale);

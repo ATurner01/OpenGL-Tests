@@ -8,9 +8,9 @@
 
 
 Scene::Scene(QWidget *parent): QGLWidget(parent){
-  gluX = 1.0;
+  gluX = -1.0;
   gluY = -1.0;
-  gluZ = -1.0;
+  gluZ =  1.0;
   gluXAt = 0.0;
   gluYAt = 0.0;
   gluZAt = 0.0;
@@ -40,14 +40,14 @@ void Scene::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
   GLfloat light_pos[] = {0., -100., 0., 0.};
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-
-  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
-  glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.);
+//  glEnable(GL_LIGHTING);
+//  glEnable(GL_LIGHT0);
+//
+//  glMatrixMode(GL_MODELVIEW);
+//  glLoadIdentity();
+//
+//  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+//  glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -59,26 +59,42 @@ void Scene::paintGL(){
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_DEPTH_TEST);
 
-  basic->cuboid(50.0,50.0,50.0, &brassMaterial);;
-
-  glPushMatrix();
-  glTranslatef(-100.,-200.,100.);
-  glRotatef(90.0, 1.0,0.0,0.0);
-  basic->cylinder(50, &whiteShinyMaterial);
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef(100,-100,0);
-  basic->plane(50, &whiteShinyMaterial);
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef(150,50,0);
-  glutSolidTeapot(50.0);
-  glPopMatrix();
-
   glLoadIdentity();
   gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
+
+
+  glPushMatrix();
+  //Draw the ceiling
+  glRotatef(90, -1.,0.,0.);
+  basic->plane(100, &whiteShinyMaterial);
+  //Draw the floor
+  glRotatef(180, 1.,0.,0.);
+  basic->plane(100,&whiteShinyMaterial);
+  glPopMatrix();
+
+  //Draw the walls
+  glPushMatrix();
+  basic->plane(100, &whiteShinyMaterial);
+  glTranslatef(0.,0.,-200.);
+  basic->plane(100, &whiteShinyMaterial);
+  glTranslatef(0.,0.,100.);
+  glRotatef(90, 0.,1.,0.);
+  glTranslatef(-100.,0.,0.);
+  basic->plane(100, &whiteShinyMaterial);
+  glPopMatrix();
+
+  //Draw the counter
+  glPushMatrix();
+  glTranslatef(50.,-75.,-25.);
+  basic->cuboid(50,20,10, &brassMaterial);
+  glTranslatef(-50.,0.,-5.);
+  basic->cuboid(5,20,15, &brassMaterial);
+  glPopMatrix();
+
+  glPushMatrix();
+  glColor3f(1.0,0.0,0.0);
+  glutSolidTeapot(25.0);
+  glPopMatrix();
 
   glFlush();
 }

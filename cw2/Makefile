@@ -53,12 +53,14 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp \
 		window.cpp \
 		scene.cpp \
-		simple_widgets.cpp moc_window.cpp \
+		simple_widgets.cpp \
+		complex_widgets.cpp moc_window.cpp \
 		moc_scene.cpp
 OBJECTS       = main.o \
 		window.o \
 		scene.o \
 		simple_widgets.o \
+		complex_widgets.o \
 		moc_window.o \
 		moc_scene.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -173,10 +175,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		cw2.pro window.hpp \
 		scene.hpp \
 		simple_widgets.hpp \
+		complex_widgets.hpp \
 		materials.hpp main.cpp \
 		window.cpp \
 		scene.cpp \
-		simple_widgets.cpp
+		simple_widgets.cpp \
+		complex_widgets.cpp
 QMAKE_TARGET  = cw2
 DESTDIR       = 
 TARGET        = cw2
@@ -432,8 +436,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents window.hpp scene.hpp simple_widgets.hpp materials.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp window.cpp scene.cpp simple_widgets.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents window.hpp scene.hpp simple_widgets.hpp complex_widgets.hpp materials.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp window.cpp scene.cpp simple_widgets.cpp complex_widgets.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -517,6 +521,9 @@ scene.o: scene.cpp scene.hpp \
 simple_widgets.o: simple_widgets.cpp simple_widgets.hpp \
 		materials.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o simple_widgets.o simple_widgets.cpp
+
+complex_widgets.o: complex_widgets.cpp complex_widgets.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o complex_widgets.o complex_widgets.cpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp

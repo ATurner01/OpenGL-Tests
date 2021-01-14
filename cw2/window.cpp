@@ -105,27 +105,27 @@ void Window::configureWidgets(){
   zUp->setValue(0);
 
   xMin->setRange(-500.0, 500.0);
-  xMin->setValue(-300.0);
+  xMin->setValue(-100.0);
   xMin->setSingleStep(0.1);
 
   yMin->setRange(-500.0, 500.0);
-  yMin->setValue(-300.0);
+  yMin->setValue(-100.0);
   yMin->setSingleStep(0.1);
 
   zMin->setRange(-500.0, 500.0);
-  zMin->setValue(-300.0);
+  zMin->setValue(-100.0);
   zMin->setSingleStep(0.1);
 
   xMax->setRange(-500.0, 500.0);
-  xMax->setValue(300.0);
+  xMax->setValue(100.0);
   xMax->setSingleStep(0.1);
 
   yMax->setRange(-500.0, 500.0);
-  yMax->setValue(300.0);
+  yMax->setValue(100.0);
   yMax->setSingleStep(0.1);
 
   zMax->setRange(-500.0, 500.0);
-  zMax->setValue(300.0);
+  zMax->setValue(100.0);
   zMax->setSingleStep(0.1);
 
 }
