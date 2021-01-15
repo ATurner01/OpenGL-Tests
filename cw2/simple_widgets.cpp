@@ -113,18 +113,22 @@ void SimpleWidgets::cuboid(float x, float y, float z, materialStruct* material){
  * @param scale the size of the cylinder
  * @param material the material of the object
  */
-void SimpleWidgets::cylinder(float scale, materialStruct* material){
+void SimpleWidgets::cylinder(float scale, int edges, int fineness,
+        materialStruct* material){
 
   float x0, y0, x1, y1;
   float delta_z;
-  int edges = 10;
-  int fine = 1;
 
-  delta_z = ((2*scale) - (-2*scale) / fine) * scale;
+  delta_z = ((2*scale) - (-2*scale) / fineness) * scale;
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
+  glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
 
   int i, j;
   for (i=0 ; i<edges ; ++i){
-    for (j=0 ; j<fine ; ++j){
+    for (j=0 ; j<fineness ; ++j){
       x0 = cos(2*i*M_PI/edges) * scale;
       x1 = cos(2*(i+1)*M_PI/edges) * scale;
       y0 = sin(2*i*M_PI/edges) * scale;

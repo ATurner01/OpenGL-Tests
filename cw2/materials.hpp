@@ -24,4 +24,11 @@ static materialStruct whiteShinyMaterial = {
         100.0
 };
 
+static materialStruct woodenMaterial = {
+        { 0.33, 0.22, 0.03, 1.0},
+        { 0.78, 0.57, 0.11, 1.0},
+        { 0.99, 0.91, 0.81, 1.0},
+        10.0
+};
+
 #endif //CW2_MATERIALS_HPP

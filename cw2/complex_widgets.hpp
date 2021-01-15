@@ -8,10 +8,13 @@ class ComplexWidgets {
 public:
     ComplexWidgets();
 
-    void table(float x, float y, float z, materialStruct *material);
-    void chair(float x, float y, float z, materialStruct *material);
-    void bottle(float x, float y, float z, materialStruct *material);
-    void glass(float x, float y, float z, materialStruct *material);
+    void table(materialStruct *material);
+    void chair(materialStruct *material);
+    void bottle(materialStruct *material);
+    void glass(materialStruct *material);
+
+private:
+    SimpleWidgets *simple;
 
 };
 

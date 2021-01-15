@@ -26,6 +26,7 @@ Scene::Scene(QWidget *parent): QGLWidget(parent){
   orthoZMax = 300.0;
 
   basic = new SimpleWidgets();
+  complex = new ComplexWidgets();
 
 }
 
@@ -38,16 +39,16 @@ void Scene::initialiseGL(){
 
 void Scene::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
-  GLfloat light_pos[] = {0., -100., 0., 0.};
+  GLfloat light_pos[] = {0., -90., 0., 0.};
 
-//  glEnable(GL_LIGHTING);
-//  glEnable(GL_LIGHT0);
-//
-//  glMatrixMode(GL_MODELVIEW);
-//  glLoadIdentity();
-//
-//  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
-//  glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+  glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180.);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -86,9 +87,19 @@ void Scene::paintGL(){
   //Draw the counter
   glPushMatrix();
   glTranslatef(50.,-75.,-25.);
-  basic->cuboid(50,20,10, &brassMaterial);
+  basic->cuboid(50,20,10, &woodenMaterial);
   glTranslatef(-50.,0.,-5.);
-  basic->cuboid(5,20,15, &brassMaterial);
+  basic->cuboid(5,20,15, &woodenMaterial);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(0.,-75.,25.);
+  complex->table(&woodenMaterial);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(0.,-75.,0.);
+  complex->chair(&woodenMaterial);
   glPopMatrix();
 
   glPushMatrix();

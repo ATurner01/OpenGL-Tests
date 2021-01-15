@@ -9,7 +9,8 @@ public:
 
     void plane(float scale, materialStruct* material);
     void cuboid(float x, float y, float z, materialStruct* material);
-    void cylinder(float scale, materialStruct* material);
+    void cylinder(float scale, int edges, int fineness, materialStruct*
+    material);
 
 };
 

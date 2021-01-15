@@ -3,6 +3,7 @@
 
 #include <QGLWidget>
 #include "simple_widgets.hpp"
+#include "complex_widgets.hpp"
 
 class Scene: public QGLWidget {
     Q_OBJECT
@@ -17,6 +18,7 @@ protected:
     float gluX, gluY, gluZ, gluXAt, gluYAt, gluZAt, gluXUp, gluYUp, gluZUp;
     float orthoXMin, orthoYMin, orthoZMin, orthoXMax, orthoYMax, orthoZMax;
     SimpleWidgets *basic;
+    ComplexWidgets *complex;
 
 public slots:
     void gluXValue(int);
