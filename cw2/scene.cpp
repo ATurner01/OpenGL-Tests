@@ -8,9 +8,9 @@
 
 
 Scene::Scene(QWidget *parent): QGLWidget(parent){
-  gluX = -1.0;
-  gluY = -1.0;
-  gluZ =  1.0;
+  gluX = -28.0;
+  gluY = 7.0;
+  gluZ =  4.0;
   gluXAt = 0.0;
   gluYAt = 0.0;
   gluZAt = 0.0;
@@ -18,11 +18,11 @@ Scene::Scene(QWidget *parent): QGLWidget(parent){
   gluYUp = 1.0;
   gluZUp = 0.0;
 
-  orthoXMin = -300.0;
-  orthoYMin = -300.0;
+  orthoXMin = -150.0;
+  orthoYMin = -150.0;
   orthoZMin = -300.0;
-  orthoXMax = 300.0;
-  orthoYMax = 300.0;
+  orthoXMax = 150.0;
+  orthoYMax = 150.0;
   orthoZMax = 300.0;
 
   basic = new SimpleWidgets();
@@ -92,20 +92,29 @@ void Scene::paintGL(){
   basic->cuboid(5,20,15, &woodenMaterial);
   glPopMatrix();
 
+  //Draw some furniture
+  //We want to keep connected pieces of furniture together so we make sure
+  // they all use the same coordinate system
   glPushMatrix();
-  glTranslatef(0.,-75.,25.);
+  glTranslatef(0.,-70.5,50.);
   complex->table(&woodenMaterial);
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef(0.,-75.,0.);
+  glTranslatef(0.,-10.,-25.);
+  complex->chair(&woodenMaterial);
+  glTranslatef(0.,0.,50);
+  glRotatef(180, 0.,1.,0.);
   complex->chair(&woodenMaterial);
   glPopMatrix();
 
   glPushMatrix();
-  glColor3f(1.0,0.0,0.0);
-  glutSolidTeapot(25.0);
+  glTranslatef(98.,-75.,50.);
+  glRotatef(90, 0.,1.,0.);
+  complex->fireplace(&brassMaterial);
   glPopMatrix();
+
+//  glPushMatrix();
+//  glColor3f(1.0,0.0,0.0);
+//  glutSolidTeapot(25.0);
+//  glPopMatrix();
 
   glFlush();
 }
@@ -152,35 +161,5 @@ void Scene::gluYUpValue(int yUp){
 
 void Scene::gluZUpValue(int zUp){
   this->gluZUp = (float) zUp;
-  this->repaint();
-}
-
-void Scene::orthoXMinValue(double xMin){
-  this->orthoXMin = (float) xMin;
-  this->repaint();
-}
-
-void Scene::orthoYMinValue(double yMin){
-  this->orthoYMin = (float) yMin;
-  this->repaint();
-}
-
-void Scene::orthoZMinValue(double zMin){
-  this->orthoZMin = (float) zMin;
-  this->repaint();
-}
-
-void Scene::orthoXMaxValue(double xMax){
-  this->orthoXMax = (float) xMax;
-  this->repaint();
-}
-
-void Scene::orthoYMaxValue(double yMax){
-  this->orthoYMax = (float) yMax;
-  this->repaint();
-}
-
-void Scene::orthoZMaxValue(double zMax){
-  this->orthoZMax = (float) zMax;
   this->repaint();
 }

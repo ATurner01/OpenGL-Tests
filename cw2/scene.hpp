@@ -30,13 +30,6 @@ public slots:
     void gluXUpValue(int);
     void gluYUpValue(int);
     void gluZUpValue(int);
-
-    void orthoXMinValue(double);
-    void orthoYMinValue(double);
-    void orthoZMinValue(double);
-    void orthoXMaxValue(double);
-    void orthoYMaxValue(double);
-    void orthoZMaxValue(double);
 };
 
 

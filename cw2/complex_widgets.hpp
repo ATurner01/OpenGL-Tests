@@ -12,6 +12,7 @@ public:
     void chair(materialStruct *material);
     void bottle(materialStruct *material);
     void glass(materialStruct *material);
+    void fireplace(materialStruct *material);
 
 private:
     SimpleWidgets *simple;

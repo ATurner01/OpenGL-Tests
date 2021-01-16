@@ -5,7 +5,7 @@
 #include <QGLWidget>
 #include <QMenuBar>
 #include <QSlider>
-#include <QDoubleSpinBox>
+#include <QSpinBox>
 #include <QBoxLayout>
 #include <QGridLayout>
 #include "scene.hpp"
@@ -30,12 +30,6 @@ public:
     QLabel *xUpLabel;
     QLabel *yUpLabel;
     QLabel *zUpLabel;
-    QLabel *xMinLabel;
-    QLabel *yMinLabel;
-    QLabel *zMinLabel;
-    QLabel *xMaxLabel;
-    QLabel *yMaxLabel;
-    QLabel *zMaxLabel;
 
     //Define the sliders for changing gluLookAt values
     QSlider *xBar;
@@ -48,13 +42,16 @@ public:
     QSlider *yUp;
     QSlider *zUp;
 
-    //Define the input fields for glOrtho
-    QDoubleSpinBox *xMin;
-    QDoubleSpinBox *yMin;
-    QDoubleSpinBox *zMin;
-    QDoubleSpinBox *xMax;
-    QDoubleSpinBox *yMax;
-    QDoubleSpinBox *zMax;
+    //Define additional input fields for each slider
+    QSpinBox *xVal;
+    QSpinBox *yVal;
+    QSpinBox *zVal;
+    QSpinBox *xAtVal;
+    QSpinBox *yAtVal;
+    QSpinBox *zAtVal;
+    QSpinBox *xUpVal;
+    QSpinBox *yUpVal;
+    QSpinBox *zUpVal;
 
     //Define the widgets that make the scene
     Scene *cube;

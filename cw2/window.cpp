@@ -26,12 +26,6 @@ void Window::createWidgets(){
   xUpLabel = new QLabel("Up x: ");
   yUpLabel = new QLabel("Up y: ");
   zUpLabel = new QLabel("Up z:" );
-  xMinLabel = new QLabel("x min: ");
-  yMinLabel = new QLabel("y min: ");
-  zMinLabel = new QLabel("z min: ");
-  xMaxLabel = new QLabel("x max: ");
-  yMaxLabel = new QLabel("y max:" );
-  zMaxLabel = new QLabel("z max: ");
 
   //Setup the sliders for changing the gluLookAt values
   xBar = new QSlider(Qt::Horizontal);
@@ -44,12 +38,16 @@ void Window::createWidgets(){
   yUp = new QSlider(Qt::Horizontal);
   zUp = new QSlider(Qt::Horizontal);
 
-  xMin = new QDoubleSpinBox();
-  yMin = new QDoubleSpinBox();
-  zMin = new QDoubleSpinBox();
-  xMax = new QDoubleSpinBox();
-  yMax = new QDoubleSpinBox();
-  zMax = new QDoubleSpinBox();
+  //Setup additional input fields for the gluLookAt values
+  xVal = new QSpinBox();
+  yVal = new QSpinBox();
+  zVal = new QSpinBox();
+  xAtVal = new QSpinBox();
+  yAtVal = new QSpinBox();
+  zAtVal = new QSpinBox();
+  xUpVal = new QSpinBox();
+  yUpVal = new QSpinBox();
+  zUpVal = new QSpinBox();
 
   //Setup the widgets that make up the scene
   cube = new Scene(this);
@@ -104,29 +102,26 @@ void Window::configureWidgets(){
   zUp->setTickInterval(10);
   zUp->setValue(0);
 
-  xMin->setRange(-500.0, 500.0);
-  xMin->setValue(-100.0);
-  xMin->setSingleStep(0.1);
+  xVal->setRange(-180, 180);
+  yVal->setRange(-180, 180);
+  zVal->setRange(-180, 180);
+  xVal->setValue(1);
+  yVal->setValue(-1);
+  zVal->setValue(-1);
 
-  yMin->setRange(-500.0, 500.0);
-  yMin->setValue(-100.0);
-  yMin->setSingleStep(0.1);
+  xAtVal->setRange(-180, 180);
+  yAtVal->setRange(-180, 180);
+  zAtVal->setRange(-180, 180);
+  xAtVal->setValue(0);
+  yAtVal->setValue(0);
+  zAtVal->setValue(0);
 
-  zMin->setRange(-500.0, 500.0);
-  zMin->setValue(-100.0);
-  zMin->setSingleStep(0.1);
-
-  xMax->setRange(-500.0, 500.0);
-  xMax->setValue(100.0);
-  xMax->setSingleStep(0.1);
-
-  yMax->setRange(-500.0, 500.0);
-  yMax->setValue(100.0);
-  yMax->setSingleStep(0.1);
-
-  zMax->setRange(-500.0, 500.0);
-  zMax->setValue(100.0);
-  zMax->setSingleStep(0.1);
+  xUpVal->setRange(-180, 180);
+  yUpVal->setRange(-180, 180);
+  zUpVal->setRange(-180, 180);
+  xUpVal->setValue(0);
+  yUpVal->setValue(1);
+  zUpVal->setValue(0);
 
 }
 
@@ -136,48 +131,39 @@ void Window::arrangeWidgets(){
   //menu->addWidget(lookLabel, 0, 0);
   menu->addWidget(xLabel, 1, 0);
   menu->addWidget(xBar, 1, 1);
+  menu->addWidget(xVal, 1, 2);
 
   menu->addWidget(yLabel, 2, 0);
   menu->addWidget(yBar, 2, 1);
+  menu->addWidget(yVal, 2, 2);
 
   menu->addWidget(zLabel, 3, 0);
   menu->addWidget(zBar, 3, 1);
+  menu->addWidget(zVal, 3, 2);
 
-  menu->addWidget(xAtLabel, 1, 2);
-  menu->addWidget(xAt, 1, 3);
+  menu->addWidget(xAtLabel, 1, 3);
+  menu->addWidget(xAt, 1, 4);
+  menu->addWidget(xAtVal, 1, 5);
 
-  menu->addWidget(yAtLabel, 2, 2);
-  menu->addWidget(yAt, 2, 3);
+  menu->addWidget(yAtLabel, 2, 3);
+  menu->addWidget(yAt, 2, 4);
+  menu->addWidget(yAtVal, 2, 5);
 
-  menu->addWidget(zAtLabel, 3, 2);
-  menu->addWidget(zAt, 3, 3);
+  menu->addWidget(zAtLabel, 3, 3);
+  menu->addWidget(zAt, 3, 4);
+  menu->addWidget(zAtVal, 3, 5);
 
-  menu->addWidget(xUpLabel, 1, 4);
-  menu->addWidget(xUp, 1, 5);
+  menu->addWidget(xUpLabel, 1, 6);
+  menu->addWidget(xUp, 1, 7);
+  menu->addWidget(xUpVal, 1, 8);
 
-  menu->addWidget(yUpLabel, 2, 4);
-  menu->addWidget(yUp, 2, 5);
+  menu->addWidget(yUpLabel, 2, 6);
+  menu->addWidget(yUp, 2, 7);
+  menu->addWidget(yUpVal, 2, 8);
 
-  menu->addWidget(zUpLabel, 3, 4);
-  menu->addWidget(zUp, 3, 5);
-
-  menu->addWidget(xMinLabel, 1, 6);
-  menu->addWidget(xMin, 1, 7);
-
-  menu->addWidget(yMinLabel, 2, 6);
-  menu->addWidget(yMin, 2, 7);
-
-  menu->addWidget(zMinLabel, 3, 6);
-  menu->addWidget(zMin, 3, 7);
-
-  menu->addWidget(xMaxLabel, 1, 8);
-  menu->addWidget(xMax, 1, 9);
-
-  menu->addWidget(yMaxLabel, 2, 8);
-  menu->addWidget(yMax, 2, 9);
-
-  menu->addWidget(zMaxLabel, 3, 8);
-  menu->addWidget(zMax, 3, 9);
+  menu->addWidget(zUpLabel, 3, 6);
+  menu->addWidget(zUp, 3, 7);
+  menu->addWidget(zUpVal, 3, 8);
 
   //Add the widgets to the main layout of the window
   layout->addWidget(cube);
@@ -201,18 +187,25 @@ void Window::makeConnections(){
   connect(yUp, SIGNAL(valueChanged(int)), cube, SLOT(gluYUpValue(int)));
   connect(zUp, SIGNAL(valueChanged(int)), cube, SLOT(gluZUpValue(int)));
 
-  connect(xMin, SIGNAL(valueChanged(double)), cube, SLOT(orthoXMinValue
-  (double)));
-  connect(yMin, SIGNAL(valueChanged(double)), cube, SLOT(orthoYMinValue
-  (double)));
-  connect(zMin, SIGNAL(valueChanged(double)), cube, SLOT(orthoZMinValue
-  (double)));
+  connect(xBar, SIGNAL(valueChanged(int)), xVal, SLOT(setValue(int)));
+  connect(xVal, SIGNAL(valueChanged(int)), xBar, SLOT(setValue(int)));
+  connect(yBar, SIGNAL(valueChanged(int)), yVal, SLOT(setValue(int)));
+  connect(yVal, SIGNAL(valueChanged(int)), yBar, SLOT(setValue(int)));
+  connect(zBar, SIGNAL(valueChanged(int)), zVal, SLOT(setValue(int)));
+  connect(zVal, SIGNAL(valueChanged(int)), zBar, SLOT(setValue(int)));
 
-  connect(xMax, SIGNAL(valueChanged(double)), cube, SLOT(orthoXMaxValue
-  (double)));
-  connect(yMax, SIGNAL(valueChanged(double)), cube, SLOT(orthoYMaxValue
-  (double)));
-  connect(zMax, SIGNAL(valueChanged(double)), cube, SLOT(orthoZMaxValue
-  (double)));
+  connect(xAt, SIGNAL(valueChanged(int)), xAtVal, SLOT(setValue(int)));
+  connect(xAtVal, SIGNAL(valueChanged(int)), xAt, SLOT(setValue(int)));
+  connect(yAt, SIGNAL(valueChanged(int)), yAtVal, SLOT(setValue(int)));
+  connect(yAtVal, SIGNAL(valueChanged(int)), yAt, SLOT(setValue(int)));
+  connect(zAt, SIGNAL(valueChanged(int)), zAtVal, SLOT(setValue(int)));
+  connect(zAtVal, SIGNAL(valueChanged(int)), zAt, SLOT(setValue(int)));
+
+  connect(xUp, SIGNAL(valueChanged(int)), xUpVal, SLOT(setValue(int)));
+  connect(xUpVal, SIGNAL(valueChanged(int)), xUp, SLOT(setValue(int)));
+  connect(yUp, SIGNAL(valueChanged(int)), yUpVal, SLOT(setValue(int)));
+  connect(yUpVal, SIGNAL(valueChanged(int)), yUp, SLOT(setValue(int)));
+  connect(zUp, SIGNAL(valueChanged(int)), zUpVal, SLOT(setValue(int)));
+  connect(zUpVal, SIGNAL(valueChanged(int)), zUp, SLOT(setValue(int)));
 
 }
