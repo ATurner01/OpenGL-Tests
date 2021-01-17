@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QSlider>
 #include <QSpinBox>
+#include <QCheckBox>
 #include <QBoxLayout>
 #include <QGridLayout>
 #include "scene.hpp"
@@ -14,6 +15,7 @@ class Window: public QWidget {
     Q_OBJECT
 public:
     Window(QWidget *parent);
+    ~Window();
 
     //Define the layouts
     QBoxLayout *layout;
@@ -53,8 +55,10 @@ public:
     QSpinBox *yUpVal;
     QSpinBox *zUpVal;
 
+    QCheckBox *light;
+
     //Define the widgets that make the scene
-    Scene *cube;
+    Scene *scene;
 
 private:
     void createWidgets();

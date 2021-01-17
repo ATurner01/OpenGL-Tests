@@ -49,8 +49,10 @@ void Window::createWidgets(){
   yUpVal = new QSpinBox();
   zUpVal = new QSpinBox();
 
+  light = new QCheckBox("Toggle Light");
+
   //Setup the widgets that make up the scene
-  cube = new Scene(this);
+  scene = new Scene(this);
 
 }
 
@@ -123,6 +125,8 @@ void Window::configureWidgets(){
   yUpVal->setValue(1);
   zUpVal->setValue(0);
 
+  light->setCheckState(Qt::Checked);
+
 }
 
 void Window::arrangeWidgets(){
@@ -165,8 +169,10 @@ void Window::arrangeWidgets(){
   menu->addWidget(zUp, 3, 7);
   menu->addWidget(zUpVal, 3, 8);
 
+  menu->addWidget(light, 1, 9);
+
   //Add the widgets to the main layout of the window
-  layout->addWidget(cube);
+  layout->addWidget(scene);
   layout->addLayout(menu);
 
   setLayout(layout);
@@ -175,17 +181,17 @@ void Window::arrangeWidgets(){
 
 void Window::makeConnections(){
   //Connect the value of the sliders to the fields in the widgets class
-  connect(xBar, SIGNAL(valueChanged(int)), cube, SLOT(gluXValue(int)));
-  connect(yBar, SIGNAL(valueChanged(int)), cube, SLOT(gluYValue(int)));
-  connect(zBar, SIGNAL(valueChanged(int)), cube, SLOT(gluZValue(int)));
+  connect(xBar, SIGNAL(valueChanged(int)), scene, SLOT(gluXValue(int)));
+  connect(yBar, SIGNAL(valueChanged(int)), scene, SLOT(gluYValue(int)));
+  connect(zBar, SIGNAL(valueChanged(int)), scene, SLOT(gluZValue(int)));
 
-  connect(xAt, SIGNAL(valueChanged(int)), cube, SLOT(gluXAtValue(int)));
-  connect(yAt, SIGNAL(valueChanged(int)), cube, SLOT(gluYAtValue(int)));
-  connect(zAt, SIGNAL(valueChanged(int)), cube, SLOT(gluZAtValue(int)));
+  connect(xAt, SIGNAL(valueChanged(int)), scene, SLOT(gluXAtValue(int)));
+  connect(yAt, SIGNAL(valueChanged(int)), scene, SLOT(gluYAtValue(int)));
+  connect(zAt, SIGNAL(valueChanged(int)), scene, SLOT(gluZAtValue(int)));
 
-  connect(xUp, SIGNAL(valueChanged(int)), cube, SLOT(gluXUpValue(int)));
-  connect(yUp, SIGNAL(valueChanged(int)), cube, SLOT(gluYUpValue(int)));
-  connect(zUp, SIGNAL(valueChanged(int)), cube, SLOT(gluZUpValue(int)));
+  connect(xUp, SIGNAL(valueChanged(int)), scene, SLOT(gluXUpValue(int)));
+  connect(yUp, SIGNAL(valueChanged(int)), scene, SLOT(gluYUpValue(int)));
+  connect(zUp, SIGNAL(valueChanged(int)), scene, SLOT(gluZUpValue(int)));
 
   connect(xBar, SIGNAL(valueChanged(int)), xVal, SLOT(setValue(int)));
   connect(xVal, SIGNAL(valueChanged(int)), xBar, SLOT(setValue(int)));
@@ -208,4 +214,38 @@ void Window::makeConnections(){
   connect(zUp, SIGNAL(valueChanged(int)), zUpVal, SLOT(setValue(int)));
   connect(zUpVal, SIGNAL(valueChanged(int)), zUp, SLOT(setValue(int)));
 
+  connect(light, SIGNAL(stateChanged(int)), scene, SLOT(toggleLight(int)));
+
+}
+
+Window::~Window(){
+
+  delete xBar;
+  delete xLabel;
+  delete xVal;
+  delete yBar;
+  delete yLabel;
+  delete yVal;
+  delete zBar;
+  delete zLabel;
+  delete zVal;
+  delete xAt;
+  delete xAtLabel;
+  delete xAtVal;
+  delete yAt;
+  delete yAtLabel;
+  delete yAtVal;
+  delete zAt;
+  delete zAtLabel;
+  delete zAtVal;
+  delete xUp;
+  delete xUpLabel;
+  delete xUpVal;
+  delete yUp;
+  delete yUpLabel;
+  delete yUpVal;
+  delete zUp;
+  delete zUpLabel;
+  delete zUpVal;
+  delete scene;
 }

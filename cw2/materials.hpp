@@ -31,4 +31,32 @@ static materialStruct woodenMaterial = {
         10.0
 };
 
+static materialStruct redMatMaterial = {
+        { 1.0, 0.0, 0.0, 1.0},
+        { 1.0, 0.0, 0.0, 1.0},
+        { 1.0, 0.0, 0.0, 1.0},
+        0.0
+};
+
+static materialStruct greenShinyMaterial = {
+        { 0.0, 1.0, 0.0, 1.0},
+        { 0.0, 1.0, 0.0, 1.0},
+        { 0.0, 1.0, 0.0, 1.0},
+        100.0
+};
+
+static materialStruct redShinyMaterial = {
+        { 1.0, 0.0, 0.0, 1.0},
+        { 1.0, 0.0, 0.0, 1.0},
+        { 1.0, 0.0, 0.0, 1.0},
+        100.0
+};
+
+static materialStruct blueShinyMaterial = {
+        { 0.0, 0.0, 1.0, 1.0},
+        { 0.0, 0.0, 1.0, 1.0},
+        { 0.0, 0.0, 1.0, 1.0},
+        100.0
+};
+
 #endif //CW2_MATERIALS_HPP

@@ -475,6 +475,7 @@ compiler_moc_header_clean:
 moc_window.cpp: scene.hpp \
 		simple_widgets.hpp \
 		materials.hpp \
+		complex_widgets.hpp \
 		window.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -482,6 +483,7 @@ moc_window.cpp: scene.hpp \
 
 moc_scene.cpp: simple_widgets.hpp \
 		materials.hpp \
+		complex_widgets.hpp \
 		scene.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -504,25 +506,30 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 main.o: main.cpp window.hpp \
 		scene.hpp \
 		simple_widgets.hpp \
-		materials.hpp
+		materials.hpp \
+		complex_widgets.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 window.o: window.cpp window.hpp \
 		scene.hpp \
 		simple_widgets.hpp \
-		materials.hpp
+		materials.hpp \
+		complex_widgets.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o window.cpp
 
 scene.o: scene.cpp scene.hpp \
 		simple_widgets.hpp \
-		materials.hpp
+		materials.hpp \
+		complex_widgets.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scene.o scene.cpp
 
 simple_widgets.o: simple_widgets.cpp simple_widgets.hpp \
 		materials.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o simple_widgets.o simple_widgets.cpp
 
-complex_widgets.o: complex_widgets.cpp complex_widgets.hpp
+complex_widgets.o: complex_widgets.cpp complex_widgets.hpp \
+		simple_widgets.hpp \
+		materials.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o complex_widgets.o complex_widgets.cpp
 
 moc_window.o: moc_window.cpp 

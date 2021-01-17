@@ -45,8 +45,8 @@ void SimpleWidgets::cuboid(float x, float y, float z, materialStruct* material){
   float yScale = y;
   float zScale = z;
 
-  GLfloat normals[][3] = { {0.,0.,z}, {x,0.,0.}, {0.,0.,-z}, {-x,0.,0.},
-                           {0.,y,0.}, {0.,-y,0.} };
+  GLfloat normals[][3] = { {0.,0.,-z}, {-x,0.,0.}, {0.,0.,z}, {x,0.,0.},
+                           {0.,-y,0.}, {0.,y,0.} };
 
   glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
@@ -138,13 +138,13 @@ void SimpleWidgets::cylinder(float scale, int edges, int fineness,
 
       glBegin(GL_POLYGON);
       glVertex3f(x0,y0,z);
-      glVertex3f(x0,y0,0);
+      glNormal3f(x0,y0,0);
       glVertex3f(x1,y1,z);
-      glVertex3f(x1,y1,0);
+      glNormal3f(x1,y1,0);
       glVertex3f(x1,y1,z+delta_z);
-      glVertex3f(x1,y1,0);
+      glNormal3f(x1,y1,0);
       glVertex3f(x0,y0,z+delta_z);
-      glVertex3f(x0,y0,0);
+      glNormal3f(x0,y0,0);
       glEnd();
     }
   }

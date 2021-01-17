@@ -1,4 +1,5 @@
 #include <GL/glu.h>
+#include <GL/glut.h>
 #include "complex_widgets.hpp"
 
 
@@ -18,7 +19,7 @@ void ComplexWidgets::table(materialStruct *material) {
   //Draw the legs
   glRotatef(90, 1.,0.,0.);
   glTranslatef(15.,-9.,15.);
-  glScalef(1.,1.,8.);
+  glScalef(1.,1.,7.);
   simple->cylinder(1., 50, 1, material);
   glTranslatef(-30.,0.,0.);
   simple->cylinder(1., 50, 1, material);
@@ -78,6 +79,16 @@ void ComplexWidgets::chair(materialStruct *material) {
  */
 void ComplexWidgets::bottle(materialStruct *material) {
 
+  glPushMatrix();
+  glRotatef(90., 1.,0.,0.);
+  glPushMatrix();
+  glScalef(2.,2.,0.5);
+  simple->cylinder(1., 50., 10., material);
+  glPopMatrix();
+  glRotatef(180., 1.,0.,0.);
+  glTranslatef(0.,0.,1.);
+  glutSolidCone(2., 5., 50, 10);
+  glPopMatrix();
 }
 
 /**
@@ -86,6 +97,16 @@ void ComplexWidgets::bottle(materialStruct *material) {
  */
 void ComplexWidgets::glass(materialStruct *material) {
 
+  glPushMatrix();
+  glPushMatrix();
+  glRotatef(90., 1.,0.,0.);
+  glScalef(3.,3.,0.4);
+  simple->cylinder(1., 50., 10., material);
+  glPopMatrix();
+  glRotatef(90., 0.,1.,0.);
+  glTranslatef(-1.,-3.,0.);
+  glutSolidTorus(2., 2., 50, 10);
+  glPopMatrix();
 }
 
 /**

@@ -25,6 +25,8 @@ Scene::Scene(QWidget *parent): QGLWidget(parent){
   orthoYMax = 150.0;
   orthoZMax = 300.0;
 
+  light = 1;
+
   basic = new SimpleWidgets();
   complex = new ComplexWidgets();
 
@@ -60,6 +62,13 @@ void Scene::paintGL(){
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_DEPTH_TEST);
 
+  if (light){
+    glEnable(GL_LIGHT0);
+  }
+  else {
+    glDisable(GL_LIGHT0);
+  }
+
   glLoadIdentity();
   gluLookAt(gluX,gluY,gluZ, gluXAt,gluYAt,gluZAt, gluXUp,gluYUp,gluZUp);
 
@@ -86,18 +95,55 @@ void Scene::paintGL(){
 
   //Draw the counter
   glPushMatrix();
-  glTranslatef(50.,-75.,-25.);
+  glTranslatef(50.,-79.,-35.);
   basic->cuboid(50,20,10, &woodenMaterial);
+  //Place some bottles of the front counter
+  glPushMatrix();
+  glTranslatef(0.,30.,0.);
+  complex->bottle(&greenShinyMaterial);
+  glTranslatef(20.,0.,5.);
+  complex->bottle(&greenShinyMaterial);
+  glTranslatef(-55.,0.,0.);
+  complex->bottle(&greenShinyMaterial);
+  glPopMatrix();
+  //Draw the side of the counter
   glTranslatef(-50.,0.,-5.);
   basic->cuboid(5,20,15, &woodenMaterial);
+  //Draw the back of the counter
+  glTranslatef(55.,0,-50);
+  basic->cuboid(45, 20, 10, &woodenMaterial);
+  //Place some bottles on the back counter
+  glTranslatef(0.,30.,0.);
+  complex->bottle(&greenShinyMaterial);
+  glTranslatef(10.,0.,0.);
+  complex->bottle(&redShinyMaterial);
+  glTranslatef(10.,0.,0.);
+  complex->bottle(&redShinyMaterial);
+  glTranslatef(10.,0.,0.);
+  complex->bottle(&greenShinyMaterial);
+  glTranslatef(-40.,0.,0.);
+  complex->bottle(&blueShinyMaterial);
+  glTranslatef(-10.,0.,0.);
+  complex->bottle(&greenShinyMaterial);
+  glTranslatef(-10.,0.,0.);
+  complex->bottle(&redShinyMaterial);
+  glTranslatef(-10,0.,0.);
+  complex->bottle(&blueShinyMaterial);
   glPopMatrix();
 
   //Draw some furniture
   //We want to keep connected pieces of furniture together so we make sure
   // they all use the same coordinate system
   glPushMatrix();
-  glTranslatef(0.,-70.5,50.);
+  glTranslatef(0.,-70.,50.);
   complex->table(&woodenMaterial);
+  glPushMatrix();
+  glTranslatef(0.,9.,10.);
+  complex->glass(&brassMaterial);
+  glTranslatef(0.,0.,-20.);
+  glRotatef(180., 0.,1.,0.);
+  complex->glass(&brassMaterial);
+  glPopMatrix();
   glTranslatef(0.,-10.,-25.);
   complex->chair(&woodenMaterial);
   glTranslatef(0.,0.,50);
@@ -106,15 +152,23 @@ void Scene::paintGL(){
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(98.,-75.,50.);
-  glRotatef(90, 0.,1.,0.);
-  complex->fireplace(&brassMaterial);
+  glTranslatef(0.,-80.,0.);
+  glRotatef(180., 0.,1.,0.);
+  glTranslatef(0.,0.,10.);
+  complex->chair(&woodenMaterial);
+  glTranslatef(-30.,0.,0.);
+  complex->chair(&woodenMaterial);
+  glTranslatef(-30.,0.,0.);
+  complex->chair(&woodenMaterial);
+  glTranslatef(-30.,0.,0.);
+  complex->chair(&woodenMaterial);
   glPopMatrix();
 
-//  glPushMatrix();
-//  glColor3f(1.0,0.0,0.0);
-//  glutSolidTeapot(25.0);
-//  glPopMatrix();
+  glPushMatrix();
+  glTranslatef(98.,-78.,50.);
+  glRotatef(90, 0.,1.,0.);
+  complex->fireplace(&redMatMaterial);
+  glPopMatrix();
 
   glFlush();
 }
@@ -161,5 +215,10 @@ void Scene::gluYUpValue(int yUp){
 
 void Scene::gluZUpValue(int zUp){
   this->gluZUp = (float) zUp;
+  this->repaint();
+}
+
+void Scene::toggleLight(int toggle){
+  this->light = toggle;
   this->repaint();
 }

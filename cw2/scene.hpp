@@ -17,6 +17,7 @@ protected:
 
     float gluX, gluY, gluZ, gluXAt, gluYAt, gluZAt, gluXUp, gluYUp, gluZUp;
     float orthoXMin, orthoYMin, orthoZMin, orthoXMax, orthoYMax, orthoZMax;
+    int light;
     SimpleWidgets *basic;
     ComplexWidgets *complex;
 
@@ -30,6 +31,7 @@ public slots:
     void gluXUpValue(int);
     void gluYUpValue(int);
     void gluZUpValue(int);
+    void toggleLight(int);
 };
 
 
