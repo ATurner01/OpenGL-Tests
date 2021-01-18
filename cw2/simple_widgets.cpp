@@ -1,6 +1,4 @@
 #include <GL/glu.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <cmath>
 #include "simple_widgets.hpp"
 

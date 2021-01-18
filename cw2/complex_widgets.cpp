@@ -153,11 +153,14 @@ void ComplexWidgets::lightWithFan(materialStruct *material, float angle){
   glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
   glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
 
+  //Create the light fixture and light bulb
   glRotatef(90., -1.,0.,0.);
   glutSolidCone(5.,10., 50, 10);
   glTranslatef(0.,0.,-3.);
   glutSolidSphere(3., 50, 10);
+  //Create the fan blades around the light fixture
   glPushMatrix();
+  //Rotates all of the fan blades based on the current angle of rotation
   glRotatef(angle, 0.,0.,1.);
   glTranslatef(0.,20.,3);
   simple->cuboid(5.,15.,1., &woodenMaterial);

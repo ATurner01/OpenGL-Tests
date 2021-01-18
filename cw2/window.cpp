@@ -49,8 +49,10 @@ void Window::createWidgets(){
   yUpVal = new QSpinBox();
   zUpVal = new QSpinBox();
 
+  //Setup the checkbox to control lighting
   light = new QCheckBox("Toggle Light");
 
+  //Setup a timer to control the rotation of objects
   timer = new QTimer(this);
 
   //Setup the widgets that make up the scene
@@ -106,6 +108,7 @@ void Window::configureWidgets(){
   zUp->setTickInterval(10);
   zUp->setValue(0);
 
+  //Configure the spin boxes to match the sliders
   xVal->setRange(-180, 180);
   yVal->setRange(-180, 180);
   zVal->setRange(-180, 180);
@@ -127,6 +130,7 @@ void Window::configureWidgets(){
   yUpVal->setValue(1);
   zUpVal->setValue(0);
 
+  //Sets the default state of the checkbox to checked
   light->setCheckState(Qt::Checked);
 
   timer->start(20);
@@ -197,6 +201,8 @@ void Window::makeConnections(){
   connect(yUp, SIGNAL(valueChanged(int)), scene, SLOT(gluYUpValue(int)));
   connect(zUp, SIGNAL(valueChanged(int)), scene, SLOT(gluZUpValue(int)));
 
+  //Connect the value of the spin boxes to the value of the sliders
+  // and connect the value of the sliders to the value of the spin boxes
   connect(xBar, SIGNAL(valueChanged(int)), xVal, SLOT(setValue(int)));
   connect(xVal, SIGNAL(valueChanged(int)), xBar, SLOT(setValue(int)));
   connect(yBar, SIGNAL(valueChanged(int)), yVal, SLOT(setValue(int)));
@@ -218,8 +224,10 @@ void Window::makeConnections(){
   connect(zUp, SIGNAL(valueChanged(int)), zUpVal, SLOT(setValue(int)));
   connect(zUpVal, SIGNAL(valueChanged(int)), zUp, SLOT(setValue(int)));
 
+  //Connect the checkbox to the light in the scene
   connect(light, SIGNAL(stateChanged(int)), scene, SLOT(toggleLight(int)));
 
+  //Setup the timer so it updates the angle of rotation
   connect(timer, SIGNAL(timeout()), scene, SLOT(updateAngle()));
 
 }

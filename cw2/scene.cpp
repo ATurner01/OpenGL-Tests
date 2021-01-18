@@ -1,8 +1,6 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <QGLWidget>
-#include <iostream>
-#include <string>
 #include "scene.hpp"
 #include "materials.hpp"
 
@@ -42,6 +40,7 @@ void Scene::initialiseGL(){
 
 void Scene::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
+  //Try to line up the light source with the model of the light in the scene
   GLfloat light_pos[] = {0., -75., 0., 0.};
 
   glEnable(GL_LIGHTING);
@@ -63,6 +62,7 @@ void Scene::paintGL(){
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_DEPTH_TEST);
 
+  //Enable the main light source if the value is 1, otherwise disable it
   if (light){
     glEnable(GL_LIGHT0);
   }
@@ -178,6 +178,9 @@ void Scene::paintGL(){
 
   glFlush();
 }
+
+
+//The code below defines all the slots used by this class
 
 void Scene::gluXValue(int x){
   this->gluX = (float) x;
