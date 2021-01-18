@@ -13,6 +13,7 @@ public:
     void bottle(materialStruct *material);
     void glass(materialStruct *material);
     void fireplace(materialStruct *material);
+    void lightWithFan(materialStruct *material, float angle);
 
 private:
     SimpleWidgets *simple;

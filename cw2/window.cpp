@@ -51,6 +51,8 @@ void Window::createWidgets(){
 
   light = new QCheckBox("Toggle Light");
 
+  timer = new QTimer(this);
+
   //Setup the widgets that make up the scene
   scene = new Scene(this);
 
@@ -126,6 +128,8 @@ void Window::configureWidgets(){
   zUpVal->setValue(0);
 
   light->setCheckState(Qt::Checked);
+
+  timer->start(20);
 
 }
 
@@ -215,6 +219,8 @@ void Window::makeConnections(){
   connect(zUpVal, SIGNAL(valueChanged(int)), zUp, SLOT(setValue(int)));
 
   connect(light, SIGNAL(stateChanged(int)), scene, SLOT(toggleLight(int)));
+
+  connect(timer, SIGNAL(timeout()), scene, SLOT(updateAngle()));
 
 }
 

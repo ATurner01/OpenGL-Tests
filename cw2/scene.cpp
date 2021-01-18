@@ -1,8 +1,8 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <QGLWidget>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+#include <string>
 #include "scene.hpp"
 #include "materials.hpp"
 
@@ -25,6 +25,7 @@ Scene::Scene(QWidget *parent): QGLWidget(parent){
   orthoYMax = 150.0;
   orthoZMax = 300.0;
 
+  angle = 0.0;
   light = 1;
 
   basic = new SimpleWidgets();
@@ -41,7 +42,7 @@ void Scene::initialiseGL(){
 
 void Scene::resizeGL(int w, int h){
   glViewport(0, 0, w, h);
-  GLfloat light_pos[] = {0., -90., 0., 0.};
+  GLfloat light_pos[] = {0., -75., 0., 0.};
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
@@ -170,6 +171,11 @@ void Scene::paintGL(){
   complex->fireplace(&redMatMaterial);
   glPopMatrix();
 
+  glPushMatrix();
+  glTranslatef(0.,78.,0.);
+  complex->lightWithFan(&brassMaterial, angle);
+  glPopMatrix();
+
   glFlush();
 }
 
@@ -220,5 +226,10 @@ void Scene::gluZUpValue(int zUp){
 
 void Scene::toggleLight(int toggle){
   this->light = toggle;
+  this->repaint();
+}
+
+void Scene::updateAngle(){
+  this->angle += 1.0;
   this->repaint();
 }

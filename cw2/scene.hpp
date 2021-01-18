@@ -4,6 +4,7 @@
 #include <QGLWidget>
 #include "simple_widgets.hpp"
 #include "complex_widgets.hpp"
+#include "image.hpp"
 
 class Scene: public QGLWidget {
     Q_OBJECT
@@ -17,9 +18,11 @@ protected:
 
     float gluX, gluY, gluZ, gluXAt, gluYAt, gluZAt, gluXUp, gluYUp, gluZUp;
     float orthoXMin, orthoYMin, orthoZMin, orthoXMax, orthoYMax, orthoZMax;
+    float angle;
     int light;
     SimpleWidgets *basic;
     ComplexWidgets *complex;
+    Image *image;
 
 public slots:
     void gluXValue(int);
@@ -32,6 +35,7 @@ public slots:
     void gluYUpValue(int);
     void gluZUpValue(int);
     void toggleLight(int);
+    void updateAngle();
 };
 
 

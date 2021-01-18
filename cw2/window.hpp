@@ -9,6 +9,7 @@
 #include <QCheckBox>
 #include <QBoxLayout>
 #include <QGridLayout>
+#include <QTimer>
 #include "scene.hpp"
 
 class Window: public QWidget {
@@ -55,7 +56,11 @@ public:
     QSpinBox *yUpVal;
     QSpinBox *zUpVal;
 
+    //A checkbox for controlling the light settings
     QCheckBox *light;
+
+    //A timer for controlling the rotation of objects
+    QTimer *timer;
 
     //Define the widgets that make the scene
     Scene *scene;

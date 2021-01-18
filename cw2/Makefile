@@ -54,13 +54,15 @@ SOURCES       = main.cpp \
 		window.cpp \
 		scene.cpp \
 		simple_widgets.cpp \
-		complex_widgets.cpp moc_window.cpp \
+		complex_widgets.cpp \
+		image.cpp moc_window.cpp \
 		moc_scene.cpp
 OBJECTS       = main.o \
 		window.o \
 		scene.o \
 		simple_widgets.o \
 		complex_widgets.o \
+		image.o \
 		moc_window.o \
 		moc_scene.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -176,11 +178,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		scene.hpp \
 		simple_widgets.hpp \
 		complex_widgets.hpp \
-		materials.hpp main.cpp \
+		materials.hpp \
+		image.hpp main.cpp \
 		window.cpp \
 		scene.cpp \
 		simple_widgets.cpp \
-		complex_widgets.cpp
+		complex_widgets.cpp \
+		image.cpp
 QMAKE_TARGET  = cw2
 DESTDIR       = 
 TARGET        = cw2
@@ -436,8 +440,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents window.hpp scene.hpp simple_widgets.hpp complex_widgets.hpp materials.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp window.cpp scene.cpp simple_widgets.cpp complex_widgets.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents window.hpp scene.hpp simple_widgets.hpp complex_widgets.hpp materials.hpp image.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp window.cpp scene.cpp simple_widgets.cpp complex_widgets.cpp image.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -476,6 +480,7 @@ moc_window.cpp: scene.hpp \
 		simple_widgets.hpp \
 		materials.hpp \
 		complex_widgets.hpp \
+		image.hpp \
 		window.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -484,6 +489,7 @@ moc_window.cpp: scene.hpp \
 moc_scene.cpp: simple_widgets.hpp \
 		materials.hpp \
 		complex_widgets.hpp \
+		image.hpp \
 		scene.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -507,20 +513,23 @@ main.o: main.cpp window.hpp \
 		scene.hpp \
 		simple_widgets.hpp \
 		materials.hpp \
-		complex_widgets.hpp
+		complex_widgets.hpp \
+		image.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 window.o: window.cpp window.hpp \
 		scene.hpp \
 		simple_widgets.hpp \
 		materials.hpp \
-		complex_widgets.hpp
+		complex_widgets.hpp \
+		image.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o window.cpp
 
 scene.o: scene.cpp scene.hpp \
 		simple_widgets.hpp \
 		materials.hpp \
-		complex_widgets.hpp
+		complex_widgets.hpp \
+		image.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scene.o scene.cpp
 
 simple_widgets.o: simple_widgets.cpp simple_widgets.hpp \
@@ -531,6 +540,9 @@ complex_widgets.o: complex_widgets.cpp complex_widgets.hpp \
 		simple_widgets.hpp \
 		materials.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o complex_widgets.o complex_widgets.cpp
+
+image.o: image.cpp image.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o image.o image.cpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp

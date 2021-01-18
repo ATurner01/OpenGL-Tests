@@ -138,3 +138,38 @@ void ComplexWidgets::fireplace(materialStruct *material) {
   simple->cylinder(1., 50, 10, &woodenMaterial);
   glPopMatrix();
 }
+
+/**
+ * Creates a ceiling light that also has a fan around it
+ * @param material the material of the object
+ * @param angle the angle of rotation of the fan blades
+ */
+void ComplexWidgets::lightWithFan(materialStruct *material, float angle){
+
+  glPushMatrix();
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
+  glMaterialf(GL_FRONT, GL_SHININESS, material->shininess);
+
+  glRotatef(90., -1.,0.,0.);
+  glutSolidCone(5.,10., 50, 10);
+  glTranslatef(0.,0.,-3.);
+  glutSolidSphere(3., 50, 10);
+  glPushMatrix();
+  glRotatef(angle, 0.,0.,1.);
+  glTranslatef(0.,20.,3);
+  simple->cuboid(5.,15.,1., &woodenMaterial);
+  glTranslatef(0.,-40.,0.);
+  simple->cuboid(5.,15.,1., &woodenMaterial);
+  glTranslatef(0.,20.,0.);
+  glRotatef(90., 0.,0.,1.);
+  glTranslatef(0.,20.,0.);
+  simple->cuboid(5.,15.,1., &woodenMaterial);
+  glTranslatef(0.,-40.,0.);
+  simple->cuboid(5.,15.,1., &woodenMaterial);
+  glPopMatrix();
+
+  glPopMatrix();
+}
